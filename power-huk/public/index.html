@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#f3f6fb"><title>Power Huk | Right Huk Remastered</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div id="adminLoginModal" class="modal hidden"><div class="modal-card admin-login-card">
+    <div class="modal-head"><div><p class="eyebrow">ADMIN ACCESS</p><h2>관리자 로그인</h2><p>관리자 계정으로 로그인해야 관리 기능을 사용할 수 있습니다.</p></div><button class="icon-btn" id="closeAdminLogin">✕</button></div>
+    <form id="loginForm" class="stack-form">
+      <label>관리자 아이디<input name="username" autocomplete="username" required placeholder="관리자 아이디"></label>
+      <label>비밀번호<input name="password" type="password" autocomplete="current-password" required placeholder="비밀번호"></label>
+      <button class="primary wide">관리자 로그인</button>
+      <p id="loginError" class="error"></p>
+      <p class="tiny muted">일반 사용자는 로그인 없이 사이트를 이용할 수 있습니다.</p>
+    </form>
+  </div></div>
+
+  <div id="appView" class="shell">
+    <aside class="sidebar">
+      <div class="side-brand"><div class="brand-mark small">PH</div><div><b>Power Huk</b><small>RIGHT HUK REMASTERED</small></div></div>
+      <div class="nav-label">WORKSPACE</div>
+      <button class="nav-item active" data-page="home"><span>⌂</span> 홈</button>
+      <button class="nav-item" data-page="apps"><span>▦</span> 앱</button>
+      <div class="nav-label">COMMUNITY</div>
+      <button class="nav-item" data-page="notice"><span>◈</span> 공지사항</button>
+      <div id="adminNav" class="hidden">
+        <div class="nav-label">ADMINISTRATION</div>
+        <button class="nav-item" data-page="admin"><span>⚙</span> 관리자 센터</button>
+      </div>
+      <div class="sidebar-bottom"><div class="user-chip"><div class="avatar">U</div><div class="user-meta"><b id="sideUsername">방문자</b><small id="sideRole">일반 사용자</small></div><button id="logoutBtn" class="hidden" title="관리자 로그아웃">↪</button></div></div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar"><div class="crumb">Power Huk <span>/</span> <b id="pageCrumb">홈</b></div><div class="top-actions"><span class="status-dot"></span><span id="topUsername">방문자</span><div class="avatar">U</div></div></header>
+      <div class="content">
+        <section id="page-home" class="page">
+          <div class="hero">
+            <div><p class="eyebrow">YOUR PERSONAL WORKSPACE</p><h1>필요한 모든 것,<br>한곳에서 시작하세요.</h1><p>Power Huk에서 앱을 실행하고 커뮤니티 소식을 확인하세요.</p></div>
+            <div class="hero-orb"><div class="orb-inner">PH</div></div>
+          </div>
+          <div class="section-head"><div><h2>빠른 실행</h2><p>등록된 앱으로 바로 이동합니다.</p></div><button class="text-btn" data-goto="apps">전체 앱 보기 →</button></div>
+          <div id="homeApps" class="app-grid"></div>
+          <div class="home-bottom">
+            <div class="panel"><div class="panel-head"><h3>최근 공지사항</h3><button class="text-btn" data-goto="notice">더 보기</button></div><div id="homeNotices" class="mini-list"></div></div>
+            <div class="panel welcome-panel"><div class="welcome-icon">✦</div><h3>Power Huk에 오신 것을 환영합니다.</h3><p>관리자가 추가한 HTML 앱은 이 공간에서 안전하게 분리된 프레임으로 실행됩니다.</p></div>
+          </div>
+        </section>
+
+        <section id="page-apps" class="page hidden">
+          <div class="page-heading">
+            <div><p class="eyebrow">APPLICATIONS & REQUESTS</p><h1>앱</h1><p>Power Huk에 등록된 도구와 서비스를 실행하고 새로운 앱을 요청하세요.</p></div>
+            <div class="heading-actions">
+              <span class="count-pill" id="appCount">0 APPS</span>
+              <button class="primary" id="requestAppBtn">＋ 요청사항 작성</button>
+            </div>
+          </div>
+          <div class="community-tabs"><button class="community-tab active" data-app-tab="library">앱 목록</button><button class="community-tab" data-app-tab="requests">요청사항</button></div>
+          <div id="appLibraryPane">
+            <div id="categoryFilters" class="category-filters"></div>
+            <div id="appsGrid" class="app-grid large-grid"></div>
+            <div id="emptyApps" class="empty-state hidden"><div>▦</div><h3>아직 등록된 앱이 없습니다.</h3><p>관리자가 앱을 추가하면 여기에 표시됩니다.</p></div>
+          </div>
+          <div id="appRequestsPane" class="hidden">
+            <div class="request-intro">
+              <div><b>원하는 앱이나 요청사항이 있나요?</b><p>글만 간단히 적거나, 이미지 또는 완성된 HTML 파일을 함께 첨부하여 요청할 수 있습니다.<br>요청 내역은 작성자와 관리자에게만 안전하게 표시됩니다.</p></div>
+              <button class="primary" id="requestAppBtnInline">＋ 요청사항 작성하기</button>
+            </div>
+            <div id="publicAppRequests" class="request-list"></div>
+            <div id="emptyAppRequests" class="empty-state hidden"><div>✦</div><h3>아직 등록된 요청사항이 없습니다.</h3><p>새로운 요청사항을 등록해 보세요.</p></div>
+          </div>
+        </section>
+
+        <section id="page-notice" class="page hidden">
+          <div class="page-heading"><div><p class="eyebrow">ANNOUNCEMENTS</p><h1>공지사항</h1><p>관리자가 전달하는 주요 소식입니다.</p></div></div>
+          <div id="noticeList" class="post-list"></div>
+          <div id="emptyNotices" class="empty-state hidden"><div>◈</div><h3>등록된 공지사항이 없습니다.</h3></div>
+        </section>
+
+        <section id="page-admin" class="page hidden">
+          <div class="page-heading"><div><p class="eyebrow">ADMINISTRATION</p><h1>관리자 센터</h1><p>앱과 공지사항을 관리합니다. 관리자 계정만 접근할 수 있습니다.</p></div><span class="admin-pill">ADMIN</span></div>
+          <div class="admin-layout">
+            <div class="panel">
+              <div class="panel-head"><div><h2>HTML 앱 등록</h2><p>서버에 보관할 단일 HTML 파일을 업로드합니다.</p></div><span class="panel-icon">＋</span></div>
+              <form id="uploadForm" class="stack-form">
+                <label>앱 이름<input name="name" maxlength="60" required placeholder="예: 계산기"></label>
+                <label>간단한 설명<input name="description" maxlength="180" placeholder="앱에 대한 설명"></label>
+                <label>앱 주소 (선택)<input name="slug" maxlength="40" pattern="[a-zA-Z0-9]+(-[a-zA-Z0-9]+)*" placeholder="예: calculator · 비워두면 자동 생성"></label>
+                <label>카테고리<select name="category" id="uploadCategory" required></select></label>
+                <label class="file-drop"> <span class="file-symbol">⇧</span><b>HTML 파일 선택</b><small> .html · 최대 2MB</small><input type="file" name="app" accept=".html,text/html" required></label>
+                <label class="file-drop image-drop"><span class="file-symbol">▧</span><b>앱 대표 사진 (선택)</b><small> PNG · JPG · WEBP · GIF · 최대 4MB</small><input type="file" name="image" accept="image/png,image/jpeg,image/webp,image/gif"></label>
+                <button class="primary">앱 등록하기</button><p id="uploadMessage" class="form-message"></p>
+              </form>
+            </div>
+            <div class="panel">
+              <div class="panel-head"><div><h2>공지사항 작성</h2><p>공지사항은 관리자만 등록할 수 있습니다.</p></div><span class="panel-icon">◈</span></div>
+              <form id="noticeForm" class="stack-form">
+                <label>제목<input name="title" maxlength="100" required placeholder="공지 제목"></label>
+                <label>내용<textarea name="content" rows="5" maxlength="5000" required placeholder="공지 내용을 입력하세요."></textarea></label>
+                <button class="primary">공지 등록하기</button><p id="noticeMessage" class="form-message"></p>
+              </form>
+            </div>
+          </div>
+          <div class="panel managed-panel"><div class="panel-head"><div><h2>앱 카테고리 관리</h2><p>카테고리를 추가하면 앱 등록과 분류에 사용할 수 있습니다.</p></div></div><form id="categoryForm" class="inline-form"><input name="name" maxlength="30" required placeholder="새 카테고리 이름"><button class="primary">카테고리 추가</button></form><div id="categoryList" class="category-admin-list"></div></div>
+          <div class="panel managed-panel"><div class="panel-head"><div><h2>요청사항 검토</h2><p>요청된 앱을 검토하고 HTML 파일과 카테고리를 지정해 실제 앱으로 등록합니다.</p></div><span class="count-pill" id="pendingRequestCount">0 PENDING</span></div><div id="adminAppRequests" class="request-list"></div></div>
+          <div class="panel managed-panel"><div class="panel-head"><div><h2>등록된 앱 관리</h2><p>삭제한 앱은 서버 저장 파일과 대표 사진에서도 제거됩니다.</p></div></div><div id="managedApps" class="managed-list"></div></div>
+        </section>
+      </div>
+      <footer>© 2026 Power Huk <span>·</span> Right Huk Remastered</footer>
+    </main>
+  </div>
+
+  <div id="appDetailModal" class="modal hidden"><div class="modal-card app-detail-card"><button class="icon-btn detail-close" id="closeAppDetail">✕</button><div class="detail-media"><img id="appDetailImage" alt="앱 대표 사진"><div id="appDetailFallback" class="detail-fallback">▦</div></div><div class="detail-copy"><span id="appDetailCategory" class="category-chip">기타</span><h2 id="appDetailName">앱 제목</h2><p id="appDetailDescription"></p><div class="detail-url" id="appDetailUrl"></div><button class="primary detail-open" id="openSelectedApp">열기 <span>↗</span></button></div></div></div>
+  <div id="postModal" class="modal hidden"><div class="modal-card"><div class="modal-head"><div><p class="eyebrow">COMMUNITY</p><h2 id="postModalTitle">게시글 작성</h2></div><button class="icon-btn" id="closePost">✕</button></div><form id="postForm" class="stack-form"><label>제목<input name="title" maxlength="100" required></label><label>내용<textarea name="content" rows="7" maxlength="5000" required></textarea></label><button class="primary">게시하기</button><p id="postMessage" class="form-message"></p></form></div></div>
+  <div id="requestModal" class="modal hidden"><div class="modal-card"><div class="modal-head"><div><p class="eyebrow">REQUESTS</p><h2>새 요청사항</h2><p>필요한 앱이나 기능을 요청하세요. 글만 적거나, 이미지 또는 HTML 파일을 함께 첨부할 수 있습니다.</p></div><button class="icon-btn" id="closeRequestModal">✕</button></div><form id="requestForm" class="stack-form" enctype="multipart/form-data"><label>제목<input name="title" maxlength="100" placeholder="예: 단위 변환기 또는 필요한 기능 (선택)"></label><label>요청 내용<textarea name="description" rows="4" maxlength="2000" placeholder="필요한 기능이나 사용 목적을 자세히 적어 주세요."></textarea></label><label>희망 카테고리<select name="category" id="requestCategory"></select></label><label class="file-drop image-drop"><span class="file-symbol">▧</span><b>참고 이미지 / 대표 사진 (선택)</b><small>PNG · JPG · WEBP · GIF · 최대 4MB</small><input type="file" name="imageFile" accept="image/png,image/jpeg,image/webp,image/gif"></label><label class="file-drop"><span class="file-symbol">⇧</span><b>앱 HTML 파일 (선택)</b><small>.html · 완성된 앱 파일이 있는 경우 업로드</small><input type="file" name="appFile" accept=".html,text/html"></label><button class="primary">요청 등록</button><p id="requestMessage" class="form-message"></p></form></div></div>
+  <div id="approveRequestModal" class="modal hidden"><div class="modal-card"><div class="modal-head"><div><p class="eyebrow">REQUEST APPROVAL</p><h2>요청 승인 및 앱 등록</h2><p id="approveRequestSummary"></p></div><button class="icon-btn" id="closeApproveModal">✕</button></div><form id="approveRequestForm" class="stack-form"><input type="hidden" name="requestId"><label>앱 이름<input name="name" maxlength="60" required placeholder="앱 이름 (변경 가능)"></label><label>간단한 설명<input name="description" maxlength="180" placeholder="앱에 대한 설명 (변경 가능)"></label><label>앱 링크 주소 (/appname)<input name="slug" maxlength="40" pattern="^/?[a-zA-Z0-9]+(-[a-zA-Z0-9]+)*$" placeholder="예: /photo-editor 또는 photo-editor (비워두면 자동 생성)"></label><label>등록할 카테고리<select name="category" id="approveCategory" required></select></label><label class="file-drop"><span class="file-symbol">⇧</span><b>앱 HTML 파일 (선택)</b><small id="approveHtmlHelp">.html · 비워두면 요청자가 올린 파일 사용</small><input type="file" name="app" accept=".html,text/html"></label><label class="file-drop image-drop"><span class="file-symbol">▧</span><b>대표 사진 (선택)</b><small id="approveImageHelp">PNG · JPG · WEBP · GIF · 비워두면 요청 시 올린 이미지 사용</small><input type="file" name="image" accept="image/png,image/jpeg,image/webp,image/gif"></label><button class="primary">승인하고 앱 등록</button><p id="approveMessage" class="form-message"></p></form></div></div>
+  <div id="previewRequestModal" class="modal hidden"><div class="modal-card preview-modal-card"><div class="modal-head"><div><p class="eyebrow">APP PREVIEW</p><h2 id="previewRequestTitle">앱 미리보기 및 테스트</h2></div><div class="preview-head-actions"><a class="secondary-btn small-primary preview-download-link" id="previewDownloadBtn" href="#" target="_blank" download>다운로드 ⬇</a><button class="primary small-primary" id="previewApproveBtn">승인 및 등록</button><button class="danger-btn" id="previewRejectBtn">반려</button><button class="icon-btn" id="closePreviewModal" title="닫기">✕</button></div></div><iframe id="previewRequestFrame" sandbox="allow-scripts allow-forms allow-downloads allow-modals" referrerpolicy="no-referrer" class="preview-frame"></iframe></div></div>
+  <button id="adminEntryBtn" class="admin-entry" type="button" aria-label="관리자 로그인"><img src="/admin-avatar.png" alt=""><span>관리자</span></button>
+  <div id="toast" class="toast hidden"></div>
+  <script src="/app.js"></script>
+</body>
+</html>
